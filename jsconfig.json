@@ -10,7 +10,8 @@
       "@/template/*": ["src/components/template/*"],
       "@/models/*": ["src/models/*"],
       "@/providers/*": ["src/providers/*"],
-      "@/utils/*": ["src/utils/*"]
+      "@/utils/*": ["src/utils/*"],
+      "@/schema/*": ["src/schema/*"]
     }
   }
 }

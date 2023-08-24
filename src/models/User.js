@@ -15,5 +15,5 @@ const userSchema = new Schema({
     immutable: true,
   },
 });
-const User = models.user || model("User", userSchema);
+const User = models.User || model("User", userSchema);
 export default User;
