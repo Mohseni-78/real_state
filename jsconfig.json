@@ -11,7 +11,8 @@
       "@/models/*": ["src/models/*"],
       "@/providers/*": ["src/providers/*"],
       "@/utils/*": ["src/utils/*"],
-      "@/schema/*": ["src/schema/*"]
+      "@/schema/*": ["src/schema/*"],
+      "@/constants/*": ["src/constants/*"]
     }
   }
 }

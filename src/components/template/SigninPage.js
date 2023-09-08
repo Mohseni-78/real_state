@@ -2,42 +2,37 @@
 
 import Link from "next/link";
 import Loader from "@/module/Loader";
-import styles from "@/template/Signup.module.css";
+import styles from "@/template/SignupPage.module.css";
 import { useFormik } from "formik";
-import { userSchema_signup } from "@/schema/validate";
+import { userSchema_signin } from "@/schema/validate";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
-const initialValues = { email: "", password: "", repeatPassword: "" };
+const initialValues = { email: "", password: "" };
 
-const SignupPage = () => {
+const SigninPage = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { errors, handleBlur, handleChange, handleSubmit, touched, values } = useFormik({
     initialValues,
-    validationSchema: userSchema_signup,
+    validationSchema: userSchema_signin,
     onSubmit: async (values) => {
       setLoading(true);
-      await fetch("/api/auth/signup", {
-        method: "POST",
-        body: JSON.stringify(values),
-        headers: { "Content-Type": "application/json" },
-      })
-        .then((res) => res.json())
-        .then((response) => {
-          if (response.message) {
-            toast.success(response.message);
-            router.push("/signin");
-          }
-          response.error && toast.error(response.error);
-          setLoading(false);
-        });
+      const response = await signIn("credentials", { ...values, redirect: false });
+      setLoading(false);
+      if (response.error) {
+        toast.error(response.error);
+      } else {
+        toast.success("welcome");
+        router.push("/");
+      }
     },
   });
   return (
     <div className={styles.form}>
-      <h4>فرم ثبت نام</h4>
+      <h4>فرم ورود</h4>
       <form>
         <div className="flex flex-col mb-10 ">
           <label>ایمیل:</label>
@@ -67,34 +62,20 @@ const SignupPage = () => {
             <span className=" mt-2 text-sm text-red-600">{errors.password}</span>
           )}
         </div>
-        <div className="flex flex-col mb-10 ">
-          <label>تکرار رمز عبور:</label>
-          <input
-            type="password"
-            id="repeatPassword"
-            name="repeatPassword"
-            value={values.repeatPassword}
-            onChange={handleChange}
-            onBlur={handleBlur}
-          />
-          {errors.repeatPassword && touched.repeatPassword && (
-            <span className=" mt-2 text-sm text-red-600">{errors.repeatPassword}</span>
-          )}
-        </div>
         {loading ? (
           <Loader />
         ) : (
           <button type="submit" onClick={handleSubmit}>
-            ثبت نام
+            ورود
           </button>
         )}
       </form>
       <p>
-        حساب کاربری دارید؟
-        <Link href="/signin">ورود</Link>
+        حساب کاربری ندارید؟
+        <Link href="/signup">ثبت نام کنید</Link>
       </p>
     </div>
   );
 };
 
-export default SignupPage;
+export default SigninPage;

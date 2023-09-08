@@ -1,6 +1,6 @@
 import styles from "@/layout/Footer.module.css";
 
-const Footer = () => {
+const Footer =  () => {
   return (
     <footer className={styles.footer}>
       <div className={styles.desc}>

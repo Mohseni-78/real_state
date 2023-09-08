@@ -12,7 +12,7 @@ html,
 body {
   max-width: 1200px;
   margin: auto;
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
   padding: 0 10px;
 }
 a {
